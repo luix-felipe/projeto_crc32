@@ -1,0 +1,15 @@
+# Arquivos de Simulação (Icarus Verilog / GTKWave)
+*.vcd
+*.fst
+a.out
+*.vvp
+
+# Arquivos de Síntese e Timing (Yosys / OpenSTA)
+*.log
+*.blif
+*.json
+*.rpt
+
+# Diretórios temporários
+/build/
+/sim/
