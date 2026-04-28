@@ -5,10 +5,10 @@ module crc32_lowpower(
     input logic     rst_n,
     input logic     valid_in,
     input logic     is_last,
-    input logic     [7:0] data_in,
+    input logic     data_in [7:0],
 
     output logic     valid_out,
-    output logic     [31:0] crc_out
+    output logic     crc_out [31:0]
 
 );
 
