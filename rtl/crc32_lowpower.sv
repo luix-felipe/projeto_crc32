@@ -5,12 +5,15 @@ module crc32_lowpower(
     input logic     rst_n,
     input logic     valid_in,
     input logic     is_last,
-    input logic     data_in [7:0],
+    input logic     [7:0] data_in,
 
     output logic     valid_out,
-    output logic     crc_out [31:0]
+    output logic     [31:0] crc_out
 
 );
+
+logic   [31:0] crc_reg;
+logic   [7:0] data_reg;
 
 typedef enum logic [1:0] {
     IDLE = 2'b00,
@@ -25,4 +28,24 @@ always_ff @(posedge clk or negedge rst_n) begin
         current_state <= IDLE;
     else
         current_state <= next_state;
+end
+
+always_comb begin
+    next_state = IDLE;
+    case (current_state)
+        IDLE: if (valid_in) next_state = CALC;
+        CALC: if (is_last) next_state = DONE;
+        DONE: next_state = IDLE;
+    endcase
+end
+
+always_comb begin
+    valid_out = 0;
+    crc_out   = 0;
+    case (current_state)
+        DONE: begin
+         valid_out = 1;
+         crc_out = crc_reg;
+         end
+    endcase
 end
